@@ -1,0 +1,87 @@
+name: Tests
+
+# Triggers:
+#  - push len main: bao ve nhanh chinh
+#  - pull_request len main: chan PR loi truoc khi merge
+#  - workflow_dispatch: bam tay tu tab Actions de chay khi can
+#  - schedule: chay tu dong 02:00 UTC moi ngay de phat hien regression
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+  schedule:
+    - cron: '0 2 * * *'
+
+jobs:
+  test:
+    # ubuntu-latest: nhanh va re hon Windows tren GitHub free tier.
+    # Playwright .NET chay tot tren Linux.
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Lay code ve runner
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Step 2: Cai .NET 8 SDK (match TargetFramework trong csproj)
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      # Step 3: Restore NuGet packages
+      - name: Restore dependencies
+        run: dotnet restore
+
+      # Step 4: Build Release
+      - name: Build
+        run: dotnet build --no-restore --configuration Release
+
+      # Step 5: Cai Playwright browsers.
+      # playwright.ps1 do package Microsoft.Playwright copy vao bin sau khi build.
+      # --with-deps: cai luon OS dependencies (font, lib...) bang apt-get.
+      # chi cai chromium de tiet kiem thoi gian (test khong dung Firefox/WebKit).
+      - name: Install Playwright browsers
+        run: pwsh PlaywrightTests/bin/Release/net8.0/playwright.ps1 install --with-deps chromium
+
+      # Step 6: Chay test
+      # - TEST_ENVIRONMENT=CI: load appsettings.CI.json (Headless=true, ghi video)
+      # - App__Password: dau __ la convention .NET map env var vao nested config App:Password
+      # - --settings: dung .runsettings da cau hinh
+      # - -- NUnit.NumberOfTestWorkers=2: override 4 (local) ve 2 cho on dinh tren CI
+      # - --logger trx + html: xuat 2 dinh dang report
+      - name: Run tests
+        env:
+          TEST_ENVIRONMENT: CI
+          App__Password: ${{ secrets.APP_PASSWORD }}
+        run: >
+          dotnet test
+          --no-build
+          --configuration Release
+          --settings PlaywrightTests/.runsettings
+          --logger "trx;LogFileName=test-results.trx"
+          --logger "html;LogFileName=test-results.html"
+          --results-directory TestResults
+          -- NUnit.NumberOfTestWorkers=2
+
+      # Step 7: Upload test reports (luon chay ke ca khi test fail)
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: TestResults/
+          retention-days: 14
+
+      # Step 8: Upload video chi khi co test fail (de debug)
+      # appsettings.CI.json set RecordVideoDir=videos/ nen Playwright tu quay video
+      - name: Upload videos on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-videos
+          path: PlaywrightTests/bin/Release/net8.0/videos/
+          retention-days: 7
+          if-no-files-found: ignore

@@ -1,0 +1,114 @@
+# ============================================
+# Build output
+# ============================================
+[Bb]in/
+[Oo]bj/
+[Oo]ut/
+[Dd]ebug/
+[Rr]elease/
+*.dll
+*.exe
+*.pdb
+
+# ============================================
+# Visual Studio / Rider / VS Code
+# ============================================
+.vs/
+.vscode/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+.idea/
+*.swp
+
+# ============================================
+# .NET
+# ============================================
+project.lock.json
+project.fragment.lock.json
+artifacts/
+*.nuget.props
+*.nuget.targets
+**/Properties/launchSettings.json
+
+# ============================================
+# UserSecrets - NEVER commit
+# ============================================
+secrets.json
+**/UserSecrets/
+
+# ============================================
+# Test output
+# ============================================
+TestResults/
+[Tt]est[Rr]esult*/
+*.trx
+*.coverage
+*.coveragexml
+coverage.opencover.xml
+coverage.cobertura.xml
+*.lcov
+
+# ============================================
+# Playwright
+# ============================================
+playwright-report/
+playwright/.cache/
+test-results/
+videos/
+traces/
+**/playwright-traces/
+*.webm
+*.zip
+
+# ============================================
+# NuGet packages
+# ============================================
+*.nupkg
+*.snupkg
+packages/
+!packages/build/
+**/packages/*
+!**/packages/build/
+*.nuget.props
+*.nuget.targets
+
+# ============================================
+# Logs
+# ============================================
+*.log
+logs/
+
+# ============================================
+# OS files
+# ============================================
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ============================================
+# Environment files
+# ============================================
+.env
+.env.local
+.env.*.local
+
+# ============================================
+# MSBuild language server cache
+# ============================================
+*.lscache
+
+# ============================================
+# Personal notes and learning materials
+# (kept on local machine, not committed to portfolio repo)
+# ============================================
+POM_Files/
+PlaywrightMini/
+*.docx
+*Lesson.md
+LearningPlan.md
+FiveDayPlan*.md
+Stage*_Bilingual.md
+cowork-session-*.md
+PlaywrightTests/notes.md

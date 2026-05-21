@@ -1,0 +1,18 @@
+[
+  {
+    "Username": "",
+    "Password": "",
+    "ExpectedUserNameError": "required",
+    "ExpectedPasswordError": "required",
+    "ExpectedSummaryError": null,
+    "Scenario": "Empty -> field-level required errors"
+  },
+  {
+    "Username": "admin",
+    "Password": "wrong",
+    "ExpectedUserNameError": null,
+    "ExpectedPasswordError": null,
+    "ExpectedSummaryError": "Invalid",
+    "Scenario": "Wrong password -> summary error"
+  }
+]

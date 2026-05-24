@@ -35,7 +35,7 @@ namespace PlaywrightTests.Tests
         /// RegisterEmployeeCleanup(emp);   // <-- registreer DIRECT na bouw
         /// // ... rest van test logic ...
         /// </example>
-        protected async Task RegisterEmployeeCleanup(EmployeeData employee)
+        protected void RegisterEmployeeCleanup(EmployeeData employee)
         {
             ArgumentNullException.ThrowIfNull(employee);
             RegisterCleanup(async ()=>

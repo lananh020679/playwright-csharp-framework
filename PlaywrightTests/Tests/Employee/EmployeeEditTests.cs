@@ -12,7 +12,7 @@ namespace PlaywrightTests.Tests.Employee
         {
             // Arrange - maak een employee speciaal voor deze test
             var initial = EmployeeBuilder.NewUnique("edit-name");
-            await RegisterEmployeeCleanup(initial);          // <-- ná login
+            RegisterEmployeeCleanup(initial);          // <-- ná login
             var nav = await LoginAsDefaultUserAsync();
             var list = await nav.GoToEmployeeListAsync();
             var form = await list.ClickCreateNewAsync();

@@ -1,6 +1,6 @@
 using NUnit.Framework.Internal;
 
-namespace PlaywrightTests.Tests.TestData
+namespace PlaywrightTests.TestData
 {
      /// <summary>
     /// DTO mô tả 1 bộ dữ liệu cho EmployeeFormPage.FillAsync.
@@ -34,12 +34,12 @@ namespace PlaywrightTests.Tests.TestData
                 );
             yield return new EmployeeData(
                 Name: "Bob Tran", Age : 35,   Salary: 9999.99m, DurationWorked: 10,
-                Grade: "2", Email: "bob+{suffix}@example.com",
+                Grade: "2", Email: $"bob+{suffix}@example.com",
                 ScenarioName: "Senior with decimal salary"
                 );
             yield return new EmployeeData(
                 Name: "Châu Đỗ",  Age : 45,   Salary: 1m, DurationWorked: 0,
-                Grade: "3", Email: "chau+{suffix}+test@example.com",
+                Grade: "3", Email: $"chau+{suffix}test@example.com",
                 ScenarioName: "Edge: unicode name, plus-email, min salary"
                 );            
         }

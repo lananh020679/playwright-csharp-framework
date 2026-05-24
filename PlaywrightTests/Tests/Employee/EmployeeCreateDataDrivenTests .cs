@@ -1,8 +1,8 @@
 using NUnit.Framework;
 using PlaywrightFramework.Pages;
-using PlaywrightTests.Tests.TestData;
+using PlaywrightTests.TestData;
 
-namespace PlaywrightTests.Tests
+namespace PlaywrightTests.Tests.Employee
 {
     public class EmployeeCreateDataDrivenTests : BaseTest
     {

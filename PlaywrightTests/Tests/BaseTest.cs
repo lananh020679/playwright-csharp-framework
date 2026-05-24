@@ -13,7 +13,7 @@ namespace PlaywrightTests.Tests
     /// met IBrowserDriver en pagina-objecten.
     /// </summary>
     [TestFixture]
-    public abstract class BaseTest
+    public abstract partial class BaseTest
     {
         protected TestSettings Settings{get; private set;}=null!;
         protected AppSettings AppSettings{ get; private set; }=null!;
@@ -56,6 +56,13 @@ namespace PlaywrightTests.Tests
         [TearDown]
         public async Task TearDown()
         {
+            // 1. UI cleanup eerst - browser moet nog leven.
+            //await RunRegisteredCleanupsAsync();
+
+            // 2. Retry-log na cleanup zodat outcome echt definitief is.
+            LogRetryStatus();
+            
+            // 3. Dispose Playwright (Page -> Context -> Browser -> Playwright).
             if(PlaywrightDriver is not null)
             {
                 await PlaywrightDriver.DisposeAsync();
@@ -69,6 +76,7 @@ namespace PlaywrightTests.Tests
         /// </summary>
         protected async Task<NavigationBar> LoginAsDefaultUserAsync()
         {
+            await RunRegisteredCleanupsAsync();   // <-- draait cleanups VÓÓR login
             await Login.NavigateAsync();
             return await Login.LoginWithDefaultUserAsync();
         }

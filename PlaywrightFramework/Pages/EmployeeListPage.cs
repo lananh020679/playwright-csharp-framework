@@ -15,6 +15,7 @@ namespace PlaywrightFramework.Pages
         private const string TableRows = "table tbody tr";
         public EmployeeListPage(IBrowserDriver driver, AppSettings appSettings):base(driver, appSettings){}
         protected override string RelativePath => "/Employee";
+
         
         public NavigationBar Nav => new NavigationBar(Driver,AppSettings);
 
@@ -25,12 +26,27 @@ namespace PlaywrightFramework.Pages
         public async Task<bool> HasEmployeeAsync(string email)
         => await Driver.IsVisibleAsync(new EmployeeRow(Driver, email).RowSelector, timeoutMs: 5000);
         /// <summary>Klikt op de Edit-link in de rij van de gegeven werknemer.</summary>
-        public async Task<EmployeeFormPage> EditEmployeeAsync(string name)
+        public async Task<EmployeeFormPage> EditEmployeeNameAsync(string name)
         {
             var row = new EmployeeRow(Driver, name);
             await Driver.ClickAsync(row.EditLinkSelector);
             return new EmployeeFormPage(Driver, AppSettings);
         }
+
+        public async Task<EmployeeFormPage> EditEmployeeAsync(string email)
+        {
+            var row = new EmployeeRow(Driver, email);
+            await Driver.ClickAsync(row.EditLinkSelector);
+            return new EmployeeFormPage(Driver, AppSettings);
+        }
+
+        public async Task<EmployeeDeletePage> DeleteEmployeeByEmailAsync(string email)
+        {
+            var row = new EmployeeRow(Driver, email);
+            await Driver.ClickAsync(row.DeleteLinkSelector);
+            return new EmployeeDeletePage(Driver, AppSettings);
+        }
+
         public async Task<EmployeeFormPage> ClickCreateNewAsync()
         {
             await Driver.ClickAsync(CreateNewLink);

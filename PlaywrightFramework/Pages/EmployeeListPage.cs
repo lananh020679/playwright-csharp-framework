@@ -21,6 +21,8 @@ namespace PlaywrightFramework.Pages
 
          /// <summary>Aantal werknemers dat in de tabel staat.</summary>
         public Task<int> CountEmployeesAsync()=> Driver.GetCountAsync(TableRows);
+
+        public EmployeeRow GetRow(string email) => new EmployeeRow(Driver, email);
         
         /// <summary>True als een rij met deze naam voorkomt in de tabel.</summary>
         public async Task<bool> HasEmployeeAsync(string email)

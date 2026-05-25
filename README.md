@@ -114,3 +114,11 @@ After running, results are written to `PlaywrightTests/TestResults/`:
 ## License
 
 MIT
+
+## Test data isolation
+
+This framework uses a register-cleanup pattern (ADR 0007) to ensure tests
+clean up data they create. Tests can run repeatedly without "duplicate" errors.
+
+Verified by running the same test twice in succession - each run uses a fresh
+GUID (via EmployeeBuilder.NewUnique) and cleans up after itself.

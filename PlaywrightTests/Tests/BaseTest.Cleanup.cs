@@ -42,7 +42,6 @@ namespace PlaywrightTests.Tests
             {
                 await Employees.NavigateAsync();
                 await Employees.WaitForReadyAsync();
-
                 if (await Employees.HasEmployeeAsync(employee.Email))
                 {
                     // Verwacht: DeleteEmployeeByEmailAsync toegevoegd aan EmployeeListPage.

@@ -57,7 +57,7 @@ namespace PlaywrightTests.Tests
         public async Task TearDown()
         {
             // 1. UI cleanup eerst - browser moet nog leven.
-            //await RunRegisteredCleanupsAsync();
+            await RunRegisteredCleanupsAsync();
 
             // 2. Retry-log na cleanup zodat outcome echt definitief is.
             LogRetryStatus();
@@ -76,7 +76,6 @@ namespace PlaywrightTests.Tests
         /// </summary>
         protected async Task<NavigationBar> LoginAsDefaultUserAsync()
         {
-            await RunRegisteredCleanupsAsync();   // <-- draait cleanups VÓÓR login
             await Login.NavigateAsync();
             return await Login.LoginWithDefaultUserAsync();
         }
